@@ -38,3 +38,11 @@ VALIDATE $! "Installing nodejs"
 
 useradd expense
 VALIDATE $! "Creating expense user"
+
+
+
+
+
+
+
+
