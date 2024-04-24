@@ -29,14 +29,14 @@ else
     echo "You are super user."
 fi
 
-dnf module disable nodejs -y
-VALIDATE $! "Disabling default nodejs"
+dnf module disable nodejs -y &>>$LOGFILE
+VALIDATE $? "Disabling default nodejs"
 
-dnf module enable nodejs:20 -y
-VALIDATE $! "Enabling nodejs:20 version"
+dnf module enable nodejs:20 -y &>>$LOGFILE
+VALIDATE $? "Enabling nodejs:20 version"
 
-dnf install nodejs -y
-VALIDATE $! "Installing nodejs"
+dnf install nodejs -y &>>$LOGFILE
+VALIDATE $? "Installing nodejs"
 
 id expense &>>$LOGFILE
 if [ $? -ne 0 ]
@@ -61,7 +61,8 @@ VALIDATE $? "Extracted backend code"
 npm install &>>$LOGFILE
 VALIDATE $? "Installing nodejs dependencies"
 
-cp /home/ec2-user/expense-shell/backend.service /etc/systemctl/system/backend.service & >>$LOGFILE
+#check your repo and path
+cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service &>>$LOGFILE
 VALIDATE $? "Copied backend service"
 
 systemctl daemon-reload &>>$LOGFILE
@@ -81,6 +82,3 @@ VALIDATE $? "Schema loading"
 
 systemctl restart backend &>>$LOGFILE
 VALIDATE $? "Restarting Backend"
-
-
-
